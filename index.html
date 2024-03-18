@@ -6,6 +6,49 @@
   <title>Drum Kit 🥁</title>
   <link rel="stylesheet" href="CSSFILE.css">
   <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+  <script>
+  (function(h, o, u, n, d) {
+    h = h[d] = h[d] || { q: [], onReady: function(c) { h.q.push(c) } };
+    d = o.createElement(u);
+    d.async = 1;
+    d.src = n;
+    n = o.getElementsByTagName(u)[0];
+    n.parentNode.insertBefore(d, n);
+  })(window, document, 'script', 'https://www.datadoghq-browser-agent.com/us5/v5/datadog-rum.js', 'DD_RUM');
+
+  window.DD_RUM.onReady(function() {
+    function generateUserId() {
+      var userId = localStorage.getItem('userId');
+      if (!userId) {
+        userId = Date.now() + Math.random().toString(36).substring(7);
+        localStorage.setItem('userId', userId);
+      }
+      return userId;
+    }
+
+    var userId = generateUserId(); // Call generateUserId() to get the user ID
+
+    window.DD_RUM.init({
+      clientToken: 'pub2da26e09a7d23aabfbf0b13d24c69935',
+      applicationId: '85e14ef5-337c-4733-b30b-afcdb333c71b',
+      site: 'us5.datadoghq.com',
+      service: 'drum-kit',
+      env: '<ENV_NAME>',
+      // Specify a version number to identify the deployed version of your application in Datadog
+      // version: '1.0.0', 
+      sessionSampleRate: 100,
+      sessionReplaySampleRate: 20,
+      trackUserInteractions: true,
+      trackResources: true,
+      trackLongTasks: true,
+      defaultPrivacyLevel: 'mask-user-input',
+      beforeSend: function(data) {
+        data.usr = userId;
+      }
+    });
+  });
+</script>
+
 </head>
 
 <body>
