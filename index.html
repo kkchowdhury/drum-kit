@@ -17,7 +17,11 @@
   })(window, document, 'script', 'https://www.datadoghq-browser-agent.com/us5/v5/datadog-rum.js', 'DD_RUM');
 
   window.DD_RUM.onReady(function() {
-  
+  var userId = localStorage.getItem('userId');
+    if (!userId) {
+      userId = generateUniqueUserId(); 
+      localStorage.setItem('userId', userId);
+    }
     window.DD_RUM.init({
       clientToken: 'pub2da26e09a7d23aabfbf0b13d24c69935',
       applicationId: '85e14ef5-337c-4733-b30b-afcdb333c71b',
@@ -33,6 +37,12 @@
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
     });
+    window.DD_RUM.setUser({
+      id: userId 
+    });
+    function generateUniqueUserId() {
+      return 'user_' + Math.random().toString(36).substr(2, 9);
+    }
   });
 </script>
 
